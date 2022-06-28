@@ -634,6 +634,19 @@ class Learner(object):
 
         return estimator, default_param_grid
 
+    def get_feature_names(self):
+        """
+        Feature names of features used by the estimator
+
+        Returns
+        ------
+        1-D array: feature names of features used at the estimator step
+        """
+        if self.feat_selector:
+            return self.feat_vectorizer.get_feature_names_out()[self.feat_selector.get_support()]
+        else:
+            return self.feat_vectorizer.get_feature_names_out()
+
     def _check_input_formatting(self, examples):
         """
         check that the examples are properly formatted.
