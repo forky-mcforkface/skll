@@ -1178,3 +1178,34 @@ def test_save_models_to_current_directory():
     eq_(learner1.model_type, learner2.model_type)
     eq_(learner1.model_params, learner2.model_params)
     eq_(learner1.model_kwargs, learner2.model_kwargs)
+
+
+def test_get_feature_names():
+    """
+    Test that the get_feature_names utility method works as intended.
+    We want to make sure that this gives us the list of feature names AFTER
+    the feature selector has done its work.
+    """
+    # we create some learners to test on
+    classifier_classes = ['LogisticRegression', 'DummyClassifier', 'LinearSVC']
+    classifiers = [Learner(i) for i in classifier_classes]
+    regressor_classes = ['LinearRegression', 'SVR', 'AdaBoostRegressor']
+    regressors = [Learner(i) for i in regressor_classes]
+
+    # we create some minimal training data for our learners
+    train_fs, test_fs, _ = make_regression_data(num_examples=20,
+                                                  num_features=6)
+    # now we set the first feature to 0-values only, so the feature selector will remove it
+    train_fs.features[:, 0] = 0
+
+    # we define our feature list, we are starting at f2 because we let the feature selector remove f1
+    feature_names = ['f2', 'f3', 'f4', 'f5', 'f6']
+
+    # we test whether we get the correct feature name list, we are expecting a list without 'f0'
+    # since this is just to test this method we do not care that we are fitting classifiers on regression data
+    for classifier in classifiers:
+        classifier.train(train_fs, grid_search=False)
+        assert list(classifier.get_feature_names()) == feature_names
+    for regressor in regressors:
+        regressor.train(train_fs, grid_search=False)
+        assert list(regressor.get_feature_names()) == feature_names
