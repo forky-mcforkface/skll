@@ -646,8 +646,9 @@ class Learner(object):
         by the estimator.
 
         Returns
-        ------
-        1-D array: feature names of features used at the estimator step
+        -------
+        names : 1-D array
+            Names of features actually used by the estimator.
         """
         if self.feat_selector:
             return self.feat_vectorizer.get_feature_names_out()[self.feat_selector.get_support()]
