@@ -230,10 +230,10 @@ class Learner(object):
         # - if we are using non-negative least squares regression
         self._use_dense_features = \
             (issubclass(self._model_type, _REQUIRES_DENSE) or
-                self._feature_scaling in {'with_mean', 'both'} or
-                (issubclass(self._model_type, LinearRegression) and
-                    model_kwargs is not None and
-                    model_kwargs.get("positive", False)))
+             self._feature_scaling in {'with_mean', 'both'} or
+             (issubclass(self._model_type, LinearRegression) and
+              model_kwargs is not None and
+              model_kwargs.get("positive", False)))
 
         # Set default keyword arguments for models that we have some for.
         if issubclass(self._model_type, SVC):
@@ -471,9 +471,9 @@ class Learner(object):
         res = {}
         intercept = None
         if (isinstance(self._model, LinearModel) or
-           (isinstance(self._model, SVR) and
-                self._model.kernel == 'linear') or
-           isinstance(self._model, SGDRegressor)):
+                (isinstance(self._model, SVR) and
+                 self._model.kernel == 'linear') or
+                isinstance(self._model, SGDRegressor)):
             # also includes RescaledRidge, RescaledSVR, RescaledSGDRegressor
 
             coef = self.model.coef_
@@ -650,10 +650,7 @@ class Learner(object):
         names : 1-D array
             Names of features actually used by the estimator.
         """
-        if self.feat_selector:
-            return self.feat_vectorizer.get_feature_names_out()[self.feat_selector.get_support()]
-        else:
-            return self.feat_vectorizer.get_feature_names_out()
+        return self.feat_vectorizer.get_feature_names_out()[self.feat_selector.get_support()]
 
     def _check_input_formatting(self, examples):
         """
