@@ -141,7 +141,6 @@ def make_summary_data():
 
 # Generate and write out data for the test that checks learning curve outputs
 def make_learning_curve_data():
-
     # create a featureset with the digits data
     fs_digits, _ = make_digits_data(test_size=0)
 
@@ -163,7 +162,6 @@ def make_learning_curve_data():
 # contain the right results
 def check_summary_score(use_feature_hashing,  # noqa: C901
                         use_additional_metrics):
-
     # Test to validate summary file scores
     make_summary_data()
 
@@ -326,7 +324,6 @@ def check_summary_score(use_feature_hashing,  # noqa: C901
 
 
 def test_summary():
-
     for (use_feature_hashing,
          use_additional_metrics) in product([True, False], [True, False]):
         yield check_summary_score, use_feature_hashing, use_additional_metrics
@@ -336,7 +333,6 @@ def check_xval_fancy_results_file(do_grid_search,
                                   use_folds_file,
                                   use_folds_file_for_grid_search,
                                   use_additional_metrics):
-
     train_path = join(train_dir, 'f0.jsonlines')
 
     # make a simple config file for cross-validation
@@ -423,7 +419,6 @@ def check_xval_fancy_results_file(do_grid_search,
 
 
 def test_xval_fancy_results_file():
-
     for (do_grid_search,
          use_folds_file,
          use_folds_file_for_grid_search,
@@ -431,7 +426,6 @@ def test_xval_fancy_results_file():
                                             [True, False],
                                             [True, False],
                                             [True, False]):
-
         yield (check_xval_fancy_results_file, do_grid_search,
                use_folds_file, use_folds_file_for_grid_search,
                use_additional_metrics)
@@ -518,16 +512,16 @@ def check_grid_search_cv_results(task, do_grid_search):  # noqa: C901
                     for field in ['grid_score', 'grid_search_cv_results']:
                         if do_grid_search:
                             assert set(expected_gs_cv_results).intersection(actual_gs_cv_results) == \
-                                set(expected_gs_cv_results)
+                                   set(expected_gs_cv_results)
                             if field == 'grid_score':
                                 assert expected_gs_cv_results[field] == \
-                                    actual_gs_cv_results[field]
+                                       actual_gs_cv_results[field]
                             else:
                                 for subfield in expected_gs_cv_results[field]:
                                     if time_field(subfield):
                                         continue
                                     assert expected_gs_cv_results[field][subfield] == \
-                                        actual_gs_cv_results[field][subfield]
+                                           actual_gs_cv_results[field][subfield]
                         else:
                             if field == 'grid_score':
                                 assert actual_gs_cv_results[field] == 0.0
@@ -546,16 +540,16 @@ def check_grid_search_cv_results(task, do_grid_search):  # noqa: C901
                     for field in ['grid_score', 'grid_search_cv_results']:
                         if do_grid_search:
                             assert set(expected_gs_cv_results).intersection(actual_gs_cv_results) == \
-                                set(expected_gs_cv_results)
+                                   set(expected_gs_cv_results)
                             if field == 'grid_score':
                                 assert expected_gs_cv_results[field] == \
-                                    actual_gs_cv_results[field]
+                                       actual_gs_cv_results[field]
                             else:
                                 for subfield in expected_gs_cv_results[field]:
                                     if time_field(subfield):
                                         continue
                                     assert expected_gs_cv_results[field][subfield] == \
-                                        actual_gs_cv_results[field][subfield]
+                                           actual_gs_cv_results[field][subfield]
                         else:
                             if field == 'grid_score':
                                 assert actual_gs_cv_results[field] == 0.0
@@ -565,24 +559,24 @@ def check_grid_search_cv_results(task, do_grid_search):  # noqa: C901
                 expected_gs_cv_results = expected_lines
                 actual_gs_cv_results = actual_lines
                 assert set(expected_gs_cv_results).intersection(actual_gs_cv_results) == \
-                    set(expected_gs_cv_results)
+                       set(expected_gs_cv_results)
                 for field in ['grid_score', 'grid_search_cv_results']:
                     if field == 'grid_score':
                         assert expected_gs_cv_results[field] == \
-                            actual_gs_cv_results[field]
+                               actual_gs_cv_results[field]
                     else:
                         for subfield in expected_gs_cv_results[field]:
                             if time_field(subfield):
                                 continue
                             assert expected_gs_cv_results[field][subfield] == \
-                                actual_gs_cv_results[field][subfield]
+                                   actual_gs_cv_results[field][subfield]
             else:
                 for expected_line, actual_line in zip(expected_lines,
                                                       actual_lines):
                     expected_fields = set(list(expected_line))
                     actual_fields = set(list(actual_line))
                     assert expected_fields.intersection(actual_fields) == \
-                        expected_fields
+                           expected_fields
                     assert all(field not in actual_fields
                                for field in ['grid_score',
                                              'grid_search_cv_results'])
@@ -602,19 +596,19 @@ def test_multiple_featuresets_and_featurehasher_throws_warning():
     # make a simple config file for feature hasher warning test
     values_to_fill_dict = {
         'experiment_name': 'test_warning_multiple_featuresets',
-                           'train_directory': train_dir,
-                           'task': 'train',
-                           'grid_search': 'false',
-                           'objectives': "['f1_score_micro']",
-                           'learners': "['LogisticRegression']",
+        'train_directory': train_dir,
+        'task': 'train',
+        'grid_search': 'false',
+        'objectives': "['f1_score_micro']",
+        'learners': "['LogisticRegression']",
         'featuresets':
             "[['test_input_3examples_1', 'test_input_3examples_2']]",
-                           "featureset_names": "['feature_hasher']",
-                           'suffix': '.jsonlines',
-                           'logs': output_dir,
-                           'models': output_dir,
-                           'feature_hasher': "true",
-                           "hasher_features": "4"
+        "featureset_names": "['feature_hasher']",
+        'suffix': '.jsonlines',
+        'logs': output_dir,
+        'models': output_dir,
+        'feature_hasher': "true",
+        "hasher_features": "4"
     }
 
     config_template_path = join(
@@ -951,7 +945,6 @@ def test_learning_curve_min_examples_check_override():
 def check_pipeline_attribute(do_feature_hashing,
                              learner,
                              function_args_dict):
-
     # look up the arguments that we computed earlier for
     # the current configuration
     estimator_type = learner.model_type._estimator_type
@@ -994,7 +987,6 @@ def check_pipeline_attribute(do_feature_hashing,
 
 
 def test_pipeline_attribute():
-
     # define the classifier and regressor feature dictionaries and labels that we will test on
     # and also the classes and targets respectively
     cfeature_dicts = [{"f01": -2.87, "f02": 0.713, "f03": 2.86, "f04": 0.385, "f05": -0.989,
@@ -1016,7 +1008,7 @@ def test_pipeline_attribute():
                       {"f01": -1.54, "f02": -2.17, "f03": -4.18, "f04": 1.708, "f05": 0.514,
                        "f06": 0.354, "f07": -3.55, "f08": 2.285, "f09": -3.47, "f10": -0.79},
                       {"f01": 2.162, "f02": -0.71, "f03": -0.448, "f04": 0.326, "f05": 3.384,
-                      "f06": -0.455, "f07": 1.253, "f08": 0.998, "f09": 3.193, "f10": 1.342}]
+                       "f06": -0.455, "f07": 1.253, "f08": 0.998, "f09": 3.193, "f10": 1.342}]
     classes = [1, 1, 0, 2, 1, 2, 0, 1, 2, 1]
 
     rfeature_dicts = [{'f1': 1.351, 'f2': -0.117, 'f3': 0.570, 'f4': 0.0619,
@@ -1024,9 +1016,9 @@ def test_pipeline_attribute():
                       {'f1': -0.557, 'f2': -1.704, 'f3': 0.0913, 'f4': 0.767,
                        'f5': 1.281, 'f6': -0.803},
                       {'f1': 0.720, 'f2': -0.268, 'f3': 0.760, 'f4': 0.861,
-                      'f5': -0.403, 'f6': 0.814},
+                       'f5': -0.403, 'f6': 0.814},
                       {'f1': 1.737, 'f2': -0.228, 'f3': 1.340, 'f4': 2.031,
-                      'f5': 2.170, 'f6': 1.498},
+                       'f5': 2.170, 'f6': 1.498},
                       {'f1': 0.344, 'f2': 0.340, 'f3': 0.572, 'f4': -1.06,
                        'f5': 1.044, 'f6': 2.065},
                       {'f1': -0.489, 'f2': -0.420, 'f3': 0.428, 'f4': 0.707,
@@ -1180,7 +1172,7 @@ def test_save_models_to_current_directory():
     eq_(learner1.model_kwargs, learner2.model_kwargs)
 
 
-def test_get_feature_names():
+def check_get_feature_names(selection):
     """
     Test that the get_feature_names utility method works as intended.
     We want to make sure that this gives us the list of feature names AFTER
@@ -1195,11 +1187,14 @@ def test_get_feature_names():
     # we create some minimal training data for our learners
     train_fs, test_fs, _ = make_regression_data(num_examples=20,
                                                 num_features=6)
-    # now we set the first feature to 0-values only, so the feature selector will remove it
-    train_fs.features[:, 0] = 0
-
-    # we define our feature list, we are starting at f2 because we let the feature selector remove f1
-    feature_names = ['f2', 'f3', 'f4', 'f5', 'f6']
+    # If the selection param is True
+    # we set the first feature to 0-values only, so the feature selector will remove it
+    # and we define our feature list, we are starting at f2 because we let the feature selector remove f1
+    if selection:
+        train_fs.features[:, 0] = 0
+        feature_names = ['f2', 'f3', 'f4', 'f5', 'f6']
+    else:
+        feature_names = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6']
 
     # we test whether we get the correct feature name list, we are expecting a list without 'f0'
     # since this is just to test this method we do not care that we are fitting classifiers on regression data
@@ -1209,3 +1204,8 @@ def test_get_feature_names():
     for regressor in regressors:
         regressor.train(train_fs, grid_search=False)
         assert list(regressor.get_feature_names()) == feature_names
+
+
+def test_get_feature_names():
+    yield check_get_feature_names, True
+    yield check_get_feature_names, False
