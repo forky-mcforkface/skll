@@ -1194,7 +1194,7 @@ def test_get_feature_names():
 
     # we create some minimal training data for our learners
     train_fs, test_fs, _ = make_regression_data(num_examples=20,
-                                                  num_features=6)
+                                                num_features=6)
     # now we set the first feature to 0-values only, so the feature selector will remove it
     train_fs.features[:, 0] = 0
 
