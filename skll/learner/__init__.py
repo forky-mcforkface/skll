@@ -636,7 +636,14 @@ class Learner(object):
 
     def get_feature_names(self):
         """
-        Feature names of features used by the estimator
+        Return the name of the actual features used by the estimator.
+        
+        It is possible for some features to get filtered out by the 
+        feature selector which means that the vectorizer is no
+        longer the correct source for the feature names. This
+        method takes into account the feature selector and returns
+        the names of the features that were selected to be used
+        by the estimator.
 
         Returns
         ------
